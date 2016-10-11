@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 def get_main_frequency(a):
+    # Задание 1
+
     frequency = {}
     half = len(a)/2
     flag = False
@@ -49,12 +51,9 @@ def tests():
     value = get_main_frequency([])
     print '[], result', value
 
-# Найти все минимумы и максимумы
-
-def max_profit(a):
-    pass
-
 def task_2(a, b, m):
+    # Задание 2
+
     if m == 0:
         return 0
 
@@ -120,3 +119,44 @@ def tests_2():
 
     count = task_2(-3, 9, 3)
     print 'A=-3, B=9, M=3. result =', count
+
+def task_3(a):
+    # Задание 3
+
+    b = []
+
+    for i, value in enumerate(a):
+        # Для каждого, кроме первого и последнего элементов
+        if i > 0 and i < len(a) - 1:
+            # Исключаем элементы, заведомо ненужные для рассчетов -
+            # - находящиеся не на максимумах и минимумах
+            if value >= a[i-1] and value <= a[i+1]:
+                continue
+            if value <= a[i-1] and value >= a[i+1]:
+                continue
+        b.append(value)
+
+    max_dif = 0
+    for i, value in enumerate(b[:len(b)-1]):
+        m = max(b[i+1:])
+        if m - value > max_dif:
+            max_dif = m - value
+
+    return max_dif
+
+
+def tests_3():
+    # tests
+
+    import random
+    op = [int(200000*random.random()) for i in xrange(4000)]
+
+    t = task_3(op)
+    print 'Random array, 4000 elements. result =', t
+
+    t = task_3([25191, 23031, 23143, 23386, 23033, 23387])
+    print '[25191, 23031, 23143, 23386, 23033, 23387]. result =', t
+
+    t = task_3([25191, 23031, 23017, 23012, 23000])
+    print '[25191, 23031, 23017, 23012, 23000]. result =', t 
+tests_3()
